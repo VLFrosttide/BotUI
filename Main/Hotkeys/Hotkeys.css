@@ -1,0 +1,34 @@
+body {
+  background-color: black;
+  color: aliceblue;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+:root {
+  --main-color: #4a1a82; /* Purple */
+  --select-color: #a560f3; /* A dark gray color */
+}
+
+.HotkeyButton {
+  width: 80px;
+  height: 50px;
+  background-color: rgb(74, 26, 130);
+  color: aliceblue;
+  margin: 1rem;
+  box-sizing: border-box;
+}
+.HotkeyParent {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 0.5rem;
+}
+.KeyLabel {
+  margin: 0.5rem;
+}
+.Child {
+  user-select: none;
+}

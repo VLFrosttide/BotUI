@@ -1,0 +1,10 @@
+body {
+  color: aliceblue;
+  background-color: black;
+}
+.Button {
+  width: 60px;
+  height: 80px;
+  background-color: rgb(19, 1, 1);
+  color: aliceblue;
+}
