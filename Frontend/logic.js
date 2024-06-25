@@ -16,6 +16,15 @@ OpenHotkeyEditorButton.addEventListener("click", function () {
   console.log("works");
 });
 
+window.api.StartBot((event, data) => {
+  // console.log;
+  alert("Start bot works");
+});
+window.api.EndBot((event, data) => {
+  // console.log;
+  alert("End bot works");
+});
+
 window.api.UpdatedHotkeys((event, data) => {
   localStorage.setItem("Hotkeys", data);
 });

@@ -18,6 +18,28 @@ let win;
 
 let HotkeysObject;
 
+/**
+ *
+ * @param {Object} MyObject
+ */
+function RegisterHotkeys(MyObject) {
+  for (const key of Object.keys(MyObject)) {
+    console.log("UpdatedHotkeysObject: ", MyObject[key]);
+    console.log("Key: ", key);
+    let NewFn = () => {
+      win.webContents.send(key, MyObject[key]);
+    };
+    try {
+      AddHotkey(MyObject[key], NewFn);
+    } catch (error) {
+      console.error("Error with hotkey registering: ", error);
+      win.webContents.send(
+        "Error",
+        `There was an error setting your hotkey. ${error}`
+      );
+    }
+  }
+}
 async function CreateWin(WinName, FilePath, PreloadPath) {
   WinName = new BrowserWindow({
     width: 600,
@@ -67,6 +89,7 @@ const createWindow = () => {
 ipcMain.on("CreateHotkeyObj", (event, data) => {
   HotkeysObject = JSON.parse(data);
   console.log("HotkeysObj: ", JSON.stringify(HotkeysObject));
+  RegisterHotkeys(HotkeysObject);
 });
 app.whenReady().then(() => {
   createWindow();
@@ -93,27 +116,11 @@ app.whenReady().then(() => {
 
     ipcMain.on("UpdateHotkeys", (event, data) => {
       RemoveHotkeys();
-      console.log("Data: ", data);
       win.webContents.send("UpdatedHotkeys", data);
       HotkeyWin.close();
       let UpdatedHotkeysObject = JSON.parse(data);
       console.log(UpdatedHotkeysObject);
-      for (const key of Object.keys(UpdatedHotkeysObject)) {
-        console.log("UpdatedHotkeysObject: ", UpdatedHotkeysObject[key]);
-        console.log("Key: ", key);
-        let NewFn = () => {
-          win.webContents.send(key, UpdatedHotkeysObject[key]);
-        };
-        try {
-          AddHotkey(UpdatedHotkeysObject[key], NewFn);
-        } catch (error) {
-          console.error("Error with hotkey registering: ", error);
-          win.webContents.send(
-            "Error",
-            `There was an error setting your hotkey. ${error}`
-          );
-        }
-      }
+      RegisterHotkeys(UpdatedHotkeysObject);
     });
   });
   app.on("activate", () => {
